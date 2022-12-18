@@ -1,3 +1,7 @@
-# movie-app-external-api-service
+# Project Title
 
-One of the services for Movie app microservices architecture, main purpose is to fetches external apis
+project description
+
+# How to use
+
+# Technologies

@@ -1,18 +1,18 @@
 {
-  "name": "movie-app-external-api-service",
+  "name": "template-express-server",
   "version": "1.0.0",
-  "description": "Movie app external api service, for fetching external api",
+  "description": "a template for quickly creating express server, packed with all the goodies",
   "main": "src/index.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HenokG/movie-app-external-api-service.git"
+    "url": "git+git@github.com:HenokG/template-express-server.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HenokG/movie-app-external-api-service/issues"
+    "url": "https://github.com/HenokG/template-express-server/issues"
   },
-  "homepage": "https://github.com/HenokG/movie-app-external-api-service#readme",
+  "homepage": "https://github.com/HenokG/template-express-server#readme",
   "scripts": {
     "prepare": "husky install",
     "start": "ts-node-dev src/index.ts",
