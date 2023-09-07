@@ -24,5 +24,3 @@ export const initApp = async () => {
 
   return app;
 };
-
-//TODO: shutdown server logic
