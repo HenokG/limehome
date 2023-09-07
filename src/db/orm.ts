@@ -1,0 +1,61 @@
+import { EntityManager, MikroORM, Options } from '@mikro-orm/sqlite';
+import { UserRepository } from '../modules/user/user.repository';
+import { UnitRepository } from '../modules/unit/unit.repository';
+import { Unit } from '../modules/unit/unit.entity';
+import { User } from '../modules/user/user.entity';
+import { Booking } from '../modules/booking/booking.entity';
+import { BookingRepository } from '../modules/booking/booking.repository';
+import { TSMigrationGenerator } from '@mikro-orm/migrations';
+
+interface Orm {
+  em: EntityManager;
+  user: UserRepository;
+  unit: UnitRepository;
+  booking: BookingRepository;
+}
+
+const orm: Orm = {} as Orm;
+
+export const getOptions = (): Options => ({
+  type: 'sqlite',
+  dbName: process.env.DATABASE_NAME || 'limehome.db',
+  entities: ['dist/**/*.entity.js'],
+  entitiesTs: ['src/**/*.entity.ts'],
+  debug: process.env.DEVELOPMENT === 'true',
+  migrations: {
+    tableName: 'migrations',
+    path: `${process.env.BASE_DIR}/migrations`,
+    glob: '!(*.d).{js,ts}',
+    transactional: true,
+    allOrNothing: true, // wrap all migrations in master transaction
+    dropTables: true, // allow to disable table dropping
+    safe: false, // allow to disable table and column dropping
+    snapshot: true, // save snapshot when creating new migrations
+    emit: 'ts', // migration generation mode
+    generator: TSMigrationGenerator // migration generator, e.g. to allow custom formatting
+  }
+});
+
+export const initDB = async () => {
+  const ormInstance = await MikroORM.init(getOptions());
+  await migrateIfNeeded();
+  orm.em = ormInstance.em.fork();
+  orm.user = ormInstance.em.getRepository(User);
+  orm.unit = ormInstance.em.getRepository(Unit);
+  orm.booking = ormInstance.em.getRepository(Booking);
+};
+
+export const migrateIfNeeded = async () => {
+  const orm = await MikroORM.init(getOptions());
+  const migrator = orm.getMigrator();
+
+  const migrationNeeded = await migrator.checkMigrationNeeded();
+  if (migrationNeeded) {
+    await migrator.createMigration();
+    await migrator.up();
+  }
+
+  await orm.close(true);
+};
+
+export default orm;
