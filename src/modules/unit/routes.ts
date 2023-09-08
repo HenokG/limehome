@@ -1,7 +1,7 @@
 import { Router, type Request, type Response, type RequestHandler } from 'express';
 import orm from '../../db/orm';
 import { Unit } from './unit.entity';
-import { logAndSendError } from '../common/helper';
+import { handleError } from '../common/helper';
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get('/list', (async (_: Request, res: Response) => {
     const units = await orm.unit.getAll();
     res.json(units);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
@@ -24,7 +24,7 @@ router.post('/add', (async (
     await orm.unit.add(unit);
     res.json(unit);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
@@ -34,7 +34,7 @@ router.post('/delete', (async (req: Request<null, Unit | null, { id: number }>, 
     const unit = await orm.unit.delete(id);
     res.json(unit);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 

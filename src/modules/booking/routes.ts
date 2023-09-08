@@ -1,7 +1,7 @@
 import { Router, type Request, type Response, type RequestHandler } from 'express';
 import orm from '../../db/orm';
 import { type Booking } from './booking.entity';
-import { logAndSendError } from '../common/helper';
+import { handleError } from '../common/helper';
 
 const router = Router();
 
@@ -10,7 +10,7 @@ router.get('/list', (async (_: Request, res: Response) => {
     const bookings = await orm.booking.getAll();
     res.json(bookings);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
@@ -34,7 +34,7 @@ router.post('/add', (async (
 
     res.json(booking);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
@@ -51,7 +51,7 @@ router.post('/extend', (async (
     });
     return res.json(updatedBooking);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
@@ -65,7 +65,7 @@ router.post('/delete', (async (
 
     res.json(booking);
   } catch (e) {
-    logAndSendError(res, e as Error);
+    handleError(res, e as Error);
   }
 }) as unknown as RequestHandler);
 
