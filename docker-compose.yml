@@ -4,6 +4,5 @@ services:
       context: .
     ports:
       - '${PORT}:${PORT}'
-    command: npm start
     volumes:
       - ./src:/app/src
