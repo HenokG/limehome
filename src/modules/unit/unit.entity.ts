@@ -27,14 +27,13 @@ export class Unit extends BaseEntity {
 
   async isBooked({
     checkInDate,
-    userId,
-    numberOfNights
+    checkOutDate,
+    userId
   }: {
     checkInDate: Date;
+    checkOutDate: Date;
     userId: number;
-    numberOfNights: number;
   }): Promise<boolean> {
-    const checkOutDate = calculateCheckOutDate({ checkInDate, numberOfNights });
     const bookings = this.getBookings();
 
     return bookings.some(

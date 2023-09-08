@@ -25,7 +25,7 @@ export class BookingRepository extends EntityRepository<Booking> {
     unitId,
     userId
   }: {
-    checkInDate: string;
+    checkInDate: Date;
     numberOfNights: number;
     unitId: number;
     userId: number;
@@ -33,8 +33,7 @@ export class BookingRepository extends EntityRepository<Booking> {
     if (numberOfNights < 1) {
       throw new Error('Number of nights must be greater than 0!');
     }
-    const checkInDateObj = new Date(checkInDate);
-    if (!checkInDateObj || checkInDateObj.toString() === 'Invalid Date') {
+    if (!checkInDate || checkInDate.toString() === 'Invalid Date') {
       throw new Error('Invalid check-in date!');
     }
     const user = await orm.em.findOne(
@@ -48,10 +47,10 @@ export class BookingRepository extends EntityRepository<Booking> {
       { populate: ['bookings'], cache: false, refresh: true }
     );
 
-    if (unit && user && checkInDateObj && numberOfNights) {
-      const userAlreadyBookedForDate = await user.isBookedForDate({
-        checkInDate: checkInDateObj,
-        checkOutDate: calculateCheckOutDate({ checkInDate: checkInDateObj, numberOfNights })
+    if (unit && user && numberOfNights) {
+      const userAlreadyBookedForDate = await user.hasAlreadyBookedForDate({
+        checkInDate,
+        checkOutDate: calculateCheckOutDate({ checkInDate, numberOfNights })
       });
 
       if (userAlreadyBookedForDate) {
@@ -59,15 +58,13 @@ export class BookingRepository extends EntityRepository<Booking> {
       }
 
       const isAlreadyBooked = await unit.isBooked({
-        checkInDate: checkInDateObj,
-        numberOfNights,
+        checkInDate,
+        checkOutDate: calculateCheckOutDate({ checkInDate, numberOfNights }),
         userId
       });
 
       if (!isAlreadyBooked) {
-        const booking = orm.booking.add(
-          new Booking(checkInDateObj, numberOfNights, unitId, userId)
-        );
+        const booking = orm.booking.add(new Booking(checkInDate, numberOfNights, unitId, userId));
         return booking;
       }
       throw new Error('Unit already booked for given date!');

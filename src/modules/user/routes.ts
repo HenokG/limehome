@@ -5,15 +5,6 @@ import { logAndSendError } from '../common/helper';
 
 const router = Router();
 
-router.get('/list', async (_, res) => {
-  try {
-    const users = await orm.user.getAll();
-    res.send(users);
-  } catch (e) {
-    logAndSendError(res, e as Error);
-  }
-});
-
 router.post('/add', async (req: Request<null, User, { fullName: string }>, res) => {
   try {
     const { fullName } = req.body;

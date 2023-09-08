@@ -21,7 +21,13 @@ export class User extends BaseEntity {
     return (this.bookings as unknown as Collection<Booking>).getItems();
   }
 
-  async isBookedForDate({ checkInDate, checkOutDate }: { checkInDate: Date; checkOutDate: Date }) {
+  async hasAlreadyBookedForDate({
+    checkInDate,
+    checkOutDate
+  }: {
+    checkInDate: Date;
+    checkOutDate: Date;
+  }) {
     const bookings = this.getBookings();
 
     return bookings.some((booking) =>

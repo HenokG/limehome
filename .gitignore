@@ -4,3 +4,4 @@ node_modules/
 limehome
 .env
 *.db
+src/migrations

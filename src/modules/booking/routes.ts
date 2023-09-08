@@ -18,7 +18,7 @@ router.get('/cleanUp', async (_, res) => {
   try {
     const bookings = await orm.booking.getAll();
     await Promise.all(bookings.map((booking) => orm.em.removeAndFlush(booking)));
-    res.send('deleted all bookingss');
+    res.send('deleted all bookings');
   } catch (e) {
     logAndSendError(res, e as Error);
   }
@@ -38,7 +38,7 @@ router.post(
       const { checkInDate, numberOfNights, unitId, userId } = req.body;
 
       const booking = await orm.booking.book({
-        checkInDate,
+        checkInDate: new Date(checkInDate),
         numberOfNights: Number(numberOfNights),
         unitId: Number(unitId),
         userId: Number(userId)

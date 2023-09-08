@@ -3,10 +3,6 @@ import orm from '../../db/orm';
 import { User } from './user.entity';
 
 export class UserRepository extends EntityRepository<User> {
-  async getAll(): Promise<User[]> {
-    return orm.em.find(User, {});
-  }
-
   async findById(id: number): Promise<User | null> {
     return orm.em.findOne(User, id);
   }
