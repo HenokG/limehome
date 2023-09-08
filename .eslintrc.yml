@@ -8,6 +8,8 @@ parserOptions:
   sourceType: module
   project: tsconfig.json
 rules:
+  '@typescript-eslint/indent': off
   '@typescript-eslint/semi': off
+  '@typescript-eslint/space-before-function-paren': off
   '@typescript-eslint/member-delimiter-style': off
   '@typescript-eslint/restrict-template-expressions': off

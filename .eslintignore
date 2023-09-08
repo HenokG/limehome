@@ -1,0 +1,4 @@
+migrations
+.vscode
+node_modules
+.husky
