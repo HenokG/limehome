@@ -1,16 +1,21 @@
-import { Router, type Request, type Response, type RequestHandler } from 'express';
+import {
+  Router,
+  type Request,
+  type Response,
+  type RequestHandler,
+  type NextFunction
+} from 'express';
 import orm from '../../db/orm';
 import { type Booking } from './booking.entity';
-import { handleError } from '../common/helper';
 
 const router = Router();
 
-router.get('/list', (async (_: Request, res: Response) => {
+router.get('/list', (async (_: Request, res: Response, next: NextFunction) => {
   try {
     const bookings = await orm.booking.getAll();
     res.json(bookings);
   } catch (e) {
-    handleError(res, e as Error);
+    next(e);
   }
 }) as unknown as RequestHandler);
 
@@ -20,7 +25,8 @@ router.post('/add', (async (
     Booking | Error,
     { checkInDate: string; numberOfNights: number; unitId: number; userId: number }
   >,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { checkInDate, numberOfNights, unitId, userId } = req.body;
@@ -34,13 +40,14 @@ router.post('/add', (async (
 
     res.json(booking);
   } catch (e) {
-    handleError(res, e as Error);
+    next(e);
   }
 }) as unknown as RequestHandler);
 
 router.post('/extend', (async (
   req: Request<null, Booking | Error, { updatedNumberOfNights: number; bookingId: number }>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { updatedNumberOfNights, bookingId } = req.body;
@@ -51,13 +58,14 @@ router.post('/extend', (async (
     });
     return res.json(updatedBooking);
   } catch (e) {
-    handleError(res, e as Error);
+    next(e);
   }
 }) as unknown as RequestHandler);
 
 router.post('/delete', (async (
   req: Request<null, Booking | { error: string }, { id: number }>,
-  res: Response
+  res: Response,
+  next: NextFunction
 ) => {
   try {
     const { id } = req.body;
@@ -65,7 +73,7 @@ router.post('/delete', (async (
 
     res.json(booking);
   } catch (e) {
-    handleError(res, e as Error);
+    next(e);
   }
 }) as unknown as RequestHandler);
 

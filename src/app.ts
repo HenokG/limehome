@@ -5,6 +5,7 @@ import { router as registerBookingRoutes } from './modules/booking/routes';
 import { router as registerUnitRoutes } from './modules/unit/routes';
 import { router as registerUserRoutes } from './modules/user/routes';
 import { RequestContext } from '@mikro-orm/core';
+import { errorLogger } from './logger';
 
 export const initApp = async (): Promise<Express> => {
   const app: Express = express();
@@ -25,6 +26,8 @@ export const initApp = async (): Promise<Express> => {
   app.use('/user', registerUserRoutes);
   app.use('/unit', registerUnitRoutes);
   app.use('/booking', registerBookingRoutes);
+
+  app.use(errorLogger);
 
   return app;
 };
