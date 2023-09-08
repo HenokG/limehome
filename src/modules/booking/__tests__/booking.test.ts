@@ -1,6 +1,6 @@
-import { Server } from 'http';
+import { type Server } from 'http';
 import moment from 'moment';
-import supertest, { SuperTest } from 'supertest';
+import supertest, { type SuperTest } from 'supertest';
 import { initApp } from '../../../app';
 
 describe('Test of booking module', () => {

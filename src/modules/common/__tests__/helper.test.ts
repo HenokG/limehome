@@ -1,4 +1,4 @@
-import { Booking } from '../../booking/booking.entity';
+import { type Booking } from '../../booking/booking.entity';
 import { calculateCheckOutDate, isAlreadyBookedForDate } from '../helper';
 
 describe.only('Test of common module', () => {
@@ -24,7 +24,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-02');
       const checkOutDate = new Date('2021-01-03');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(true);
@@ -34,7 +34,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-01');
       const checkOutDate = new Date('2021-01-07');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(true);
@@ -44,7 +44,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-01');
       const checkOutDate = new Date('2021-01-02');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(true);
@@ -54,7 +54,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-06');
       const checkOutDate = new Date('2021-01-07');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(true);
@@ -64,7 +64,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-08');
       const checkOutDate = new Date('2021-01-09');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(false);
@@ -74,7 +74,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2020-12-31');
       const checkOutDate = new Date('2021-01-01');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(false);
@@ -84,7 +84,7 @@ describe.only('Test of common module', () => {
       const booking = {
         checkInDate: new Date('2021-01-01'),
         checkOutDate: new Date('2021-01-07')
-      } as Booking;
+      } as unknown as Booking;
       const checkInDate = new Date('2021-01-07');
       const checkOutDate = new Date('2021-01-08');
       expect(isAlreadyBookedForDate({ booking, checkInDate, checkOutDate })).toEqual(false);

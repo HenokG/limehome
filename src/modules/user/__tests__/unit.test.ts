@@ -1,5 +1,5 @@
-import { Server } from 'http';
-import supertest, { SuperTest } from 'supertest';
+import { type Server } from 'http';
+import supertest, { type SuperTest } from 'supertest';
 import { initApp } from '../../../app';
 
 describe('Test of user module', () => {

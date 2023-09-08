@@ -1,10 +1,10 @@
-import { EntityManager, MikroORM, Options } from '@mikro-orm/sqlite';
-import { UserRepository } from '../modules/user/user.repository';
-import { UnitRepository } from '../modules/unit/unit.repository';
+import { type EntityManager, MikroORM, type Options } from '@mikro-orm/sqlite';
+import { type UserRepository } from '../modules/user/user.repository';
+import { type UnitRepository } from '../modules/unit/unit.repository';
 import { Unit } from '../modules/unit/unit.entity';
 import { User } from '../modules/user/user.entity';
 import { Booking } from '../modules/booking/booking.entity';
-import { BookingRepository } from '../modules/booking/booking.repository';
+import { type BookingRepository } from '../modules/booking/booking.repository';
 import { TSMigrationGenerator } from '@mikro-orm/migrations';
 
 interface Orm {
@@ -15,7 +15,7 @@ interface Orm {
   booking: BookingRepository;
 }
 
-const orm: Orm = {} as Orm;
+const orm: Orm = {} as unknown as Orm;
 
 export const getOptions = (): Options => ({
   type: 'sqlite',
@@ -37,7 +37,7 @@ export const getOptions = (): Options => ({
   }
 });
 
-export const initDB = async () => {
+export const initDB = async (): Promise<void> => {
   const ormInstance = await MikroORM.init(getOptions());
 
   const migrator = ormInstance.getMigrator();

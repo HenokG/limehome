@@ -4,11 +4,11 @@ import { Unit } from './unit.entity';
 
 export class UnitRepository extends EntityRepository<Unit> {
   async getAll(): Promise<Unit[]> {
-    return orm.em.find(Unit, {});
+    return await orm.em.find(Unit, {});
   }
 
   async findById(id: number): Promise<Unit | null> {
-    return orm.em.findOne(Unit, id);
+    return await orm.em.findOne(Unit, id);
   }
 
   async add(unit: Unit): Promise<Unit> {
@@ -18,7 +18,7 @@ export class UnitRepository extends EntityRepository<Unit> {
 
   async delete(id: number): Promise<Unit> {
     const unit = await this.findOne({ id });
-    if (!unit) {
+    if (unit === null) {
       throw new Error('Unit not found!');
     }
     await orm.em.removeAndFlush(unit);

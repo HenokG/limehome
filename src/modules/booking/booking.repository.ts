@@ -7,11 +7,11 @@ import { Booking } from './booking.entity';
 
 export class BookingRepository extends EntityRepository<Booking> {
   async getAll(): Promise<Booking[]> {
-    return orm.em.find(Booking, {});
+    return await orm.em.find(Booking, {});
   }
 
   async findById(id: number): Promise<Booking | null> {
-    return orm.em.findOne(Booking, id);
+    return await orm.em.findOne(Booking, id);
   }
 
   async add(booking: Booking): Promise<Booking> {
@@ -33,7 +33,7 @@ export class BookingRepository extends EntityRepository<Booking> {
     if (numberOfNights < 1) {
       throw new Error('Number of nights must be greater than 0!');
     }
-    if (!checkInDate || checkInDate.toString() === 'Invalid Date') {
+    if (checkInDate.toString() === 'Invalid Date') {
       throw new Error('Invalid check-in date!');
     }
     const user = await orm.em.findOne(
@@ -47,8 +47,8 @@ export class BookingRepository extends EntityRepository<Booking> {
       { populate: ['bookings'], cache: false, refresh: true }
     );
 
-    if (unit && user && numberOfNights) {
-      const userAlreadyBookedForDate = await user.hasAlreadyBookedForDate({
+    if (unit !== null && user !== null && numberOfNights !== 0) {
+      const userAlreadyBookedForDate = user.hasAlreadyBookedForDate({
         checkInDate,
         checkOutDate: calculateCheckOutDate({ checkInDate, numberOfNights })
       });
@@ -65,7 +65,7 @@ export class BookingRepository extends EntityRepository<Booking> {
 
       if (!isAlreadyBooked) {
         const booking = orm.booking.add(new Booking(checkInDate, numberOfNights, unitId, userId));
-        return booking;
+        return await booking;
       }
       throw new Error('Unit already booked for given date!');
     }
@@ -81,7 +81,7 @@ export class BookingRepository extends EntityRepository<Booking> {
     updatedNumberOfNights: number;
   }): Promise<Booking> {
     const currentBooking = await orm.booking.findById(bookingId);
-    if (!currentBooking) {
+    if (currentBooking === null) {
       throw new Error('Booking not found!');
     }
 
@@ -94,7 +94,7 @@ export class BookingRepository extends EntityRepository<Booking> {
       { id: currentBooking.unit.id },
       { populate: ['bookings'], cache: 50, refresh: true }
     );
-    if (!unit) {
+    if (unit === null) {
       throw new Error('Unit not found!');
     }
 
@@ -103,7 +103,7 @@ export class BookingRepository extends EntityRepository<Booking> {
       { id: currentBooking.user.id },
       { populate: ['bookings'], cache: 50, refresh: true }
     );
-    if (!user) {
+    if (user === null) {
       throw new Error('User not found!');
     }
 
@@ -151,7 +151,7 @@ export class BookingRepository extends EntityRepository<Booking> {
 
   async delete(id: number): Promise<Booking> {
     const booking = await this.findById(id);
-    if (!booking) {
+    if (booking === null) {
       throw new Error('Booking not found!');
     }
     await orm.em.removeAndFlush(booking);

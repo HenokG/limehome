@@ -1,4 +1,4 @@
-import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
+import { type Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
 import { Booking } from '../booking/booking.entity';
 import { BaseEntity } from '../common/base.entity';
 import { isAlreadyBookedForDate } from '../common/helper';
@@ -21,13 +21,13 @@ export class User extends BaseEntity {
     return (this.bookings as unknown as Collection<Booking>).getItems();
   }
 
-  async hasAlreadyBookedForDate({
+  hasAlreadyBookedForDate({
     checkInDate,
     checkOutDate
   }: {
     checkInDate: Date;
     checkOutDate: Date;
-  }) {
+  }): boolean {
     const bookings = this.getBookings();
 
     return bookings.some((booking) =>

@@ -1,11 +1,11 @@
-import { Router, Request } from 'express';
+import { Router, type Request, type Response, type RequestHandler } from 'express';
 import { User } from './user.entity';
 import orm from '../../db/orm';
 import { logAndSendError } from '../common/helper';
 
 const router = Router();
 
-router.post('/add', async (req: Request<null, User, { fullName: string }>, res) => {
+router.post('/add', (async (req: Request<null, User, { fullName: string }>, res: Response) => {
   try {
     const { fullName } = req.body;
     const user = new User(fullName);
@@ -14,9 +14,9 @@ router.post('/add', async (req: Request<null, User, { fullName: string }>, res) 
   } catch (e) {
     logAndSendError(res, e as Error);
   }
-});
+}) as unknown as RequestHandler);
 
-router.post('/delete', async (req: Request<null, User | null, { id: number }>, res) => {
+router.post('/delete', (async (req: Request<null, User | null, { id: number }>, res: Response) => {
   try {
     const { id } = req.body;
     const user = await orm.user.delete(id);
@@ -24,6 +24,6 @@ router.post('/delete', async (req: Request<null, User | null, { id: number }>, r
   } catch (e) {
     logAndSendError(res, e as Error);
   }
-});
+}) as unknown as RequestHandler);
 
 export { router };

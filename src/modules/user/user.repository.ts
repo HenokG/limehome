@@ -4,7 +4,7 @@ import { User } from './user.entity';
 
 export class UserRepository extends EntityRepository<User> {
   async findById(id: number): Promise<User | null> {
-    return orm.em.findOne(User, id);
+    return await orm.em.findOne(User, id);
   }
 
   async add(user: User): Promise<User> {
@@ -14,7 +14,7 @@ export class UserRepository extends EntityRepository<User> {
 
   async delete(id: number): Promise<User> {
     const user = await this.findOne({ id });
-    if (!user) {
+    if (user == null) {
       throw new Error('User not found!');
     }
     await orm.em.removeAndFlush(user);

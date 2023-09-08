@@ -1,7 +1,7 @@
-import { Response } from 'express';
-import { Booking } from '../booking/booking.entity';
+import { type Response } from 'express';
+import { type Booking } from '../booking/booking.entity';
 
-export const logAndSendError = (res: Response, error: Error) => {
+export const logAndSendError = (res: Response, error: Error): void => {
   console.error(error);
   res.status(400).json({ error: error.message });
 };

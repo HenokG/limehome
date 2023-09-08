@@ -1,4 +1,4 @@
-import { Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
+import { type Collection, Entity, OneToMany, Property } from '@mikro-orm/core';
 import { Booking } from '../booking/booking.entity';
 import { BaseEntity } from '../common/base.entity';
 import { isAlreadyBookedForDate } from '../common/helper';

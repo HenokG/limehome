@@ -1,12 +1,12 @@
 import bodyParser from 'body-parser';
-import express, { Express, Request, Response } from 'express';
+import express, { type Express, type Request, type Response } from 'express';
 import orm, { initDB } from './db/orm';
 import { router as registerBookingRoutes } from './modules/booking/routes';
 import { router as registerUnitRoutes } from './modules/unit/routes';
 import { router as registerUserRoutes } from './modules/user/routes';
 import { RequestContext } from '@mikro-orm/core';
 
-export const initApp = async () => {
+export const initApp = async (): Promise<Express> => {
   const app: Express = express();
 
   app.use(bodyParser.json());
@@ -18,7 +18,7 @@ export const initApp = async () => {
     RequestContext.create(orm.em, next);
   });
 
-  app.get('/', (req: Request, res: Response) => {
+  app.get('/', (_: Request, res: Response) => {
     res.send('Limehome Backend Challenge');
   });
 
