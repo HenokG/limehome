@@ -73,6 +73,11 @@ export class BookingRepository extends EntityRepository<Booking> {
     throw new Error('Invalid input!');
   }
 
+  /**
+   * extends the booking by a given number of nights
+   *
+   * @returns the extended booking or throws an error
+   */
   async extendBooking({
     bookingId,
     updatedNumberOfNights

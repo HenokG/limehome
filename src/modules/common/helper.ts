@@ -7,6 +7,18 @@ export const handleError = (res: Response, error: Error): void => {
   res.status(400).json({ error: error.message });
 };
 
+/**
+ * calculates the check out date based on the check in date and the number of nights
+ * @example
+ * ```
+ * const checkInDate = new Date('2021-01-01');
+ * const numberOfNights = 3;
+ * const checkOutDate = calculateCheckOutDate({ checkInDate, numberOfNights });
+ * console.log(checkOutDate); // 2021-01-04
+ * ```
+ *
+ * @returns the check out date
+ */
 export const calculateCheckOutDate = ({
   checkInDate,
   numberOfNights
@@ -20,6 +32,21 @@ export const calculateCheckOutDate = ({
   return checkOutDate;
 };
 
+/**
+ * checks if a booking is already in a given date range
+ * @example
+ * ```
+ * const booking = {
+ *  checkInDate: new Date('2021-01-01'),
+ *  checkOutDate: new Date('2021-01-04')
+ * };
+ * const checkInDate = new Date('2021-01-02');
+ * const checkOutDate = new Date('2021-01-03');
+ * const isAlreadyBooked = isAlreadyBookedForDate({ booking, checkInDate, checkOutDate });
+ * console.log(isAlreadyBooked); // true
+ * ```
+ *
+ */
 export const isAlreadyBookedForDate = ({
   booking,
   checkInDate,

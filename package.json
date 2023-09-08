@@ -15,8 +15,8 @@
   "homepage": "https://github.com/HenokG/limehome#readme",
   "scripts": {
     "prepare": "husky install",
-    "start": "ts-node-dev --transpile-only --respawn src/www.ts",
-    "start:dev": "ts-node-dev --transpile-only --respawn --inspect=4321 src/www.ts",
+    "start": "ts-node-dev --poll --transpile-only --respawn src/www.ts",
+    "start:dev": "ts-node-dev --poll --transpile-only --respawn --inspect=4321 src/www.ts",
     "build": "tsc",
     "prettier": "prettier -c .",
     "lint": "eslint --config .eslintrc.yml --ignore-path .eslintignore **/*.ts",

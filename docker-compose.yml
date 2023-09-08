@@ -1,9 +1,9 @@
 services:
-  backend:
+  dev-backend:
     build:
       context: .
     ports:
-      - '7000:7000'
+      - '${PORT}:${PORT}'
     command: npm start
     volumes:
-      - .:/src
+      - ./src:/app/src
