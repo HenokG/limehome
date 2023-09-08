@@ -26,5 +26,5 @@ export const errorLogger = (error: Error, req: Request, res: Response, _: NextFu
     error: error.message,
     stack: error.stack
   });
-  res.status(500).json({ error: error.toString() });
+  res.status(500).json({ error: error.message });
 };
