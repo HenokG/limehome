@@ -8,6 +8,7 @@ import { BookingRepository } from '../modules/booking/booking.repository';
 import { TSMigrationGenerator } from '@mikro-orm/migrations';
 
 interface Orm {
+  instance: MikroORM;
   em: EntityManager;
   user: UserRepository;
   unit: UnitRepository;
@@ -18,7 +19,7 @@ const orm: Orm = {} as Orm;
 
 export const getOptions = (): Options => ({
   type: 'sqlite',
-  dbName: process.env.DATABASE_NAME || 'limehome.db',
+  dbName: process.env.DATABASE_NAME ?? 'limehome.db',
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
   debug: process.env.DEVELOPMENT === 'true',
@@ -38,24 +39,16 @@ export const getOptions = (): Options => ({
 
 export const initDB = async () => {
   const ormInstance = await MikroORM.init(getOptions());
-  await migrateIfNeeded();
-  orm.em = ormInstance.em.fork();
+
+  const migrator = ormInstance.getMigrator();
+  await migrator.createMigration();
+  await migrator.up();
+
+  orm.instance = ormInstance;
+  orm.em = ormInstance.em;
   orm.user = ormInstance.em.getRepository(User);
   orm.unit = ormInstance.em.getRepository(Unit);
   orm.booking = ormInstance.em.getRepository(Booking);
-};
-
-export const migrateIfNeeded = async () => {
-  const orm = await MikroORM.init(getOptions());
-  const migrator = orm.getMigrator();
-
-  const migrationNeeded = await migrator.checkMigrationNeeded();
-  if (migrationNeeded) {
-    await migrator.createMigration();
-    await migrator.up();
-  }
-
-  await orm.close(true);
 };
 
 export default orm;

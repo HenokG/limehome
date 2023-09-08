@@ -8,17 +8,7 @@ const router = Router();
 router.get('/list', async (_, res) => {
   try {
     const bookings = await orm.booking.getAll();
-    res.send(bookings);
-  } catch (e) {
-    logAndSendError(res, e as Error);
-  }
-});
-
-router.get('/cleanUp', async (_, res) => {
-  try {
-    const bookings = await orm.booking.getAll();
-    await Promise.all(bookings.map((booking) => orm.em.removeAndFlush(booking)));
-    res.send('deleted all bookings');
+    res.json(bookings);
   } catch (e) {
     logAndSendError(res, e as Error);
   }
@@ -44,7 +34,7 @@ router.post(
         userId: Number(userId)
       });
 
-      res.send(booking);
+      res.json(booking);
     } catch (e) {
       logAndSendError(res, e as Error);
     }
@@ -79,7 +69,7 @@ router.post(
       const booking = await orm.booking.delete(id);
 
       res.json(booking);
-    } catch (e: unknown) {
+    } catch (e) {
       logAndSendError(res, e as Error);
     }
   }

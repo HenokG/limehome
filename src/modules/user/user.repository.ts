@@ -8,16 +8,16 @@ export class UserRepository extends EntityRepository<User> {
   }
 
   async add(user: User): Promise<User> {
-    await orm.em.persist(user).flush();
+    await orm.em.persistAndFlush(user);
     return user;
   }
 
-  async delete(id: number): Promise<User | null> {
+  async delete(id: number): Promise<User> {
     const user = await this.findOne({ id });
     if (!user) {
-      return null;
+      throw new Error('User not found!');
     }
-    await orm.em.remove(user).flush();
+    await orm.em.removeAndFlush(user);
     return user;
   }
 }

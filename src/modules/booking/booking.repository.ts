@@ -15,7 +15,7 @@ export class BookingRepository extends EntityRepository<Booking> {
   }
 
   async add(booking: Booking): Promise<Booking> {
-    await orm.em.persist(booking).flush();
+    await orm.em.persistAndFlush(booking);
     return booking;
   }
 
@@ -154,7 +154,7 @@ export class BookingRepository extends EntityRepository<Booking> {
     if (!booking) {
       throw new Error('Booking not found!');
     }
-    await orm.em.remove(booking).flush();
+    await orm.em.removeAndFlush(booking);
     return booking;
   }
 }

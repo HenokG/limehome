@@ -12,16 +12,16 @@ export class UnitRepository extends EntityRepository<Unit> {
   }
 
   async add(unit: Unit): Promise<Unit> {
-    await orm.em.persist(unit).flush();
+    await orm.em.persistAndFlush(unit);
     return unit;
   }
 
-  async delete(id: number): Promise<Unit | null> {
+  async delete(id: number): Promise<Unit> {
     const unit = await this.findOne({ id });
     if (!unit) {
-      return null;
+      throw new Error('Unit not found!');
     }
-    await orm.em.remove(unit).flush();
+    await orm.em.removeAndFlush(unit);
     return unit;
   }
 }

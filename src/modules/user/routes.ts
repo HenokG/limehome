@@ -10,7 +10,7 @@ router.post('/add', async (req: Request<null, User, { fullName: string }>, res) 
     const { fullName } = req.body;
     const user = new User(fullName);
     await orm.user.add(user);
-    res.send(user);
+    res.json(user);
   } catch (e) {
     logAndSendError(res, e as Error);
   }
@@ -20,7 +20,7 @@ router.post('/delete', async (req: Request<null, User | null, { id: number }>, r
   try {
     const { id } = req.body;
     const user = await orm.user.delete(id);
-    res.send(user);
+    res.json(user);
   } catch (e) {
     logAndSendError(res, e as Error);
   }

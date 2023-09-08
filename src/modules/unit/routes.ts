@@ -8,7 +8,7 @@ const router = Router();
 router.get('/list', async (_, res) => {
   try {
     const units = await orm.unit.getAll();
-    res.send(units);
+    res.json(units);
   } catch (e) {
     logAndSendError(res, e as Error);
   }
@@ -19,7 +19,7 @@ router.post('/add', async (req: Request<null, Unit, { name: string; price: numbe
     const { name, price } = req.body;
     const unit = new Unit(name, price);
     await orm.unit.add(unit);
-    res.send(unit);
+    res.json(unit);
   } catch (e) {
     logAndSendError(res, e as Error);
   }
@@ -29,7 +29,7 @@ router.post('/delete', async (req: Request<null, Unit | null, { id: number }>, r
   try {
     const { id } = req.body;
     const unit = await orm.unit.delete(id);
-    res.send(unit);
+    res.json(unit);
   } catch (e) {
     logAndSendError(res, e as Error);
   }

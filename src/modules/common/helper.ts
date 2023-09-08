@@ -13,6 +13,7 @@ export const calculateCheckOutDate = ({
   checkInDate: Date;
   numberOfNights: number;
 }): Date => {
+  if (numberOfNights < 1) throw new Error('Number of nights must be greater than 0');
   const checkOutDate = new Date(checkInDate);
   checkOutDate.setDate(checkOutDate.getDate() + Number(numberOfNights));
   return checkOutDate;
