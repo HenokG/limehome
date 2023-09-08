@@ -4,7 +4,6 @@ import { getLogger } from '../../logger';
 
 export const handleError = (res: Response, error: Error): void => {
   getLogger().error(error);
-  console.log('hallo');
   res.status(400).json({ error: error.message });
 };
 
