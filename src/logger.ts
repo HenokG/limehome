@@ -3,7 +3,7 @@ import pino, { type Logger } from 'pino';
 
 export let logger: Logger;
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENV === 'production') {
   logger = pino();
 } else {
   logger = pino({

@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20230908072646 extends Migration {
+export class Migration20230910205923 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table `unit` (`id` integer not null primary key autoincrement, `name` text not null, `price` integer not null);');

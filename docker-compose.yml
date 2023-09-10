@@ -2,7 +2,9 @@ services:
   dev-backend:
     build:
       context: .
+      target: development
     ports:
       - '${PORT}:${PORT}'
     volumes:
-      - ./src:/app/src
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules/

@@ -1,2 +1,3 @@
-migrations
+src/db/migrations
 .vscode
+dist

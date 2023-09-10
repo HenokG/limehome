@@ -1,4 +1,5 @@
-migrations
+src/db/migrations
+dist
 .vscode
 node_modules
 .husky
