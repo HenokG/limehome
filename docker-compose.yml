@@ -1,5 +1,6 @@
 services:
   dev-backend:
+    image: limehome/development
     build:
       context: .
       target: development

@@ -1,0 +1,8 @@
+services:
+  dev-backend:
+    image: limehome/production
+    build:
+      context: .
+      target: production
+    ports:
+      - '${PORT}:${PORT}'

@@ -1,5 +1,5 @@
 # Development
-FROM node:19.3 AS development
+FROM node:latest AS development
 
 WORKDIR /usr/src/app
 
@@ -14,7 +14,7 @@ CMD ["npm", "run", "start:dev"]
 # ------------------------------------------------------------ #
 
 # Production
-FROM node:19.3 AS production
+FROM node:latest AS production
 
 WORKDIR /usr/src/app
 
@@ -23,5 +23,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+RUN npm run build
 
 CMD ["npm", "run", "start"]
