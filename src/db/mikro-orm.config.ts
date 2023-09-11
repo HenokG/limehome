@@ -12,7 +12,8 @@ const config: Options = {
   debug: process.env.ENV === 'development',
   migrations: {
     tableName: 'migrations',
-    path: `${process.env.BASE_DIR}/src/db/migrations`,
+    path: `${process.env.BASE_DIR}/dist/src/db/migrations`,
+    pathTs: `${process.env.BASE_DIR}/src/db/migrations`,
     glob: '!(*.d).{js,ts}',
     transactional: true,
     allOrNothing: true, // wrap all migrations in master transaction
